@@ -1,0 +1,151 @@
+{
+  "name": "streamcommander",
+  "version": "1.0.0",
+  "description": "A simple tool to aid with frameless window video capture",
+  "author": "Samuel Byard",
+  "main": "main.js",
+  "icon": "icons/win/icon.ico",
+  "scripts": {
+    "start": "electron-forge start",
+    "build": "run-os",
+    "build:win32": "electron-builder --win32",
+    "build:win64": "electron-builder --win64",
+    "build:darwin": "electron-builder --mac",
+    "build:linux": "electron-builder --linux",
+    "clean": "rimraf ./dist",
+    "release": "electron-builder --publish always",
+    "package": "electron-forge package",
+    "make": "electron-forge make"
+  },
+  "build": {
+    "appId": "StreamCommander",
+    "productName": "SC",
+    "files": [
+      "**/*",
+      "build/Release/*",
+      "icons/*.*",
+      "icons/mac/*.*",
+      "icons/png/*.*",
+      "icons/win/*.*"
+    ],
+    "mac": {
+      "category": "public.build.automation",
+      "icon": "icons/mac/icon.icns",
+      "target": [
+        "dmg",
+        "zip"
+      ],
+      "hardenedRuntime": true,
+      "entitlements": "./build/entitlements.mac.inherit.plist",
+      "extendInfo": {
+        "NSCameraUsageDescription": "This app requires camera access to record video.",
+        "NSMicrophoneUsageDescription": "This app requires microphone access to record audio."
+      }
+    },
+    "dmg": {
+      "contents": [
+        {
+          "x": 110,
+          "y": 150
+        },
+        {
+          "x": 440,
+          "y": 150,
+          "type": "link",
+          "path": "/Applications"
+        }
+      ],
+      "artifactName": "SC-${version}.${ext}"
+    },
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        },
+        {
+          "target": "portable"
+        }
+      ],
+      "icon": "icons/win/icon.ico"
+    },
+    "linux": {
+      "category": "public.build.automation",
+      "icon": "icons/png/256x256.png",
+      "target": "AppImage"
+    },
+    "nsis": {
+      "runAfterFinish": true,
+      "installerIcon": "icons/win/icon.ico",
+      "artifactName": "SC-${version}.${ext}"
+    },
+    "portable": {
+      "artifactName": "SC.exe"
+    },
+    "appx": {
+      "applicationId": "SC",
+      "backgroundColor": "#464646",
+      "identityName": "SC",
+      "publisherDisplayName": "Samuel Byard",
+      "artifactName": "SC-${version}.${ext}"
+    },
+    "publish": [
+      {
+        "provider": "github",
+        "releaseType": "release"
+      }
+    ],
+    "afterSign": "./afterSign.js"
+  },
+  "devDependencies": {
+    "@electron-forge/cli": "^6.0.0-beta.54",
+    "@electron-forge/maker-deb": "^6.0.0-beta.54",
+    "@electron-forge/maker-rpm": "^6.0.0-beta.54",
+    "@electron-forge/maker-squirrel": "^6.0.0-beta.54",
+    "@electron-forge/maker-zip": "^6.0.0-beta.54",
+    "electron": "^12.0.2",
+    "electron-notarize": "^1.0.0",
+    "electron-packager": "^15.2.0",
+    "rimraf": "^2.6.3",
+    "run-script-os-fix": "^1.0.4"
+  },
+  "dependencies": {
+    "electron-context-menu": "^2.4.0",
+    "electron-is-dev": "^1.0.1",
+    "electron-prompt": "^1.6.2",
+    "electron-squirrel-startup": "^1.0.0",
+    "yargs": "^15.4.1"
+  },
+  "config": {
+    "forge": {
+      "packagerConfig": {
+        "platform": "win32",
+        "icon": "icons/win/icon.ico"
+      },
+      "makers": [
+        {
+          "name": "@electron-forge/maker-squirrel",
+          "config": {
+            "name": "StreamCommander"
+          }
+        },
+        {
+          "name": "@electron-forge/maker-zip",
+          "platforms": [
+            "darwin"
+          ]
+        },
+        {
+          "name": "@electron-forge/maker-deb",
+          "config": {}
+        },
+        {
+          "name": "@electron-forge/maker-rpm",
+          "config": {}
+        }
+      ]
+    }
+  }
+}
