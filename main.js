@@ -77,11 +77,11 @@ var forcingAspectRatio = false;
 
 function createWindow (URL=url) {
  
-	let currentTitle = "OBSN";
+	let currentTitle = "Stream Commander";
   
 	if (title==null){
 		counter+=1;
-		currentTitle = "OBSN "+(counter.toString());
+		currentTitle = "Stream Commander "+(counter.toString());
 	} else if (counter==0){
 		counter+=1;
 		currentTitle = title;
@@ -112,7 +112,7 @@ function createWindow (URL=url) {
 	const mainWindow = new BrowserWindow({
 		width: width / factor,
 		height: height / factor,
-		frame: false,
+		frame: true,
 		transparent: true,
 		backgroundColor: '#141926',
 		fullscreenable: true, 
@@ -124,7 +124,9 @@ function createWindow (URL=url) {
 			nodeIntegration: true  // this could be a security hazard, but useful for enabling screen sharing and global hotkeys
 		},
 		title: currentTitle
-	});
+	})
+
+	mainWindow.setMenuBarVisibility(false);
     
 	
 
